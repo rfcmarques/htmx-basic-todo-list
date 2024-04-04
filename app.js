@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
         <section>
           <form 
             id="goal-form"
-            hx-post="/"
+            hx-post="/goals"
             hx-target="#goals"
             hx-swap="outerHTML"
             hx-select="#goals"
@@ -43,11 +43,10 @@ app.get("/", (req, res) => {
             <li id="goal-${index}">
               <span>${goal}</span>
               <button 
-                hx-delete="/"
+                hx-delete="/goals/${index}"
                 hx-confirm="Are you sure that you want to delete this goal?"
-                hx-target="#goals"
+                hx-target="#goal-${index}"
                 hx-swap="outerHTML"
-                hx-select="#goals"
               >
                 Remove
               </button>
@@ -62,10 +61,15 @@ app.get("/", (req, res) => {
   `);
 });
 
-app.post("/", (req, res) => {
+app.post("/goals", (req, res) => {
   courseGoals.unshift(req.body.goal);
 
   res.redirect("/");
+});
+
+app.delete("/goals/:id", (req, res) => {
+  courseGoals.splice(req.params.id, 1);
+  res.send();
 });
 
 app.listen(1337);
