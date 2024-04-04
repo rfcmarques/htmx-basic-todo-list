@@ -42,7 +42,15 @@ app.get("/", (req, res) => {
             (goal, index) => `
             <li id="goal-${index}">
               <span>${goal}</span>
-              <button>Remove</button>
+              <button 
+                hx-delete="/"
+                hx-confirm="Are you sure that you want to delete this goal?"
+                hx-target="#goals"
+                hx-swap="outerHTML"
+                hx-select="#goals"
+              >
+                Remove
+              </button>
             </li>
           `
           )}
