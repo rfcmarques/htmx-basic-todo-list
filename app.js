@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
           </form>
         </section>
         <section>
-          <ul id="goals">
+          <ul id="goals" hx-swap="outerHTML">
           ${courseGoals
             .map(
               (goal) => `
@@ -47,7 +47,6 @@ app.get("/", (req, res) => {
                 hx-delete="/goals/${goal.id}"
                 hx-confirm="Are you sure that you want to delete this goal?"
                 hx-target="#goal-${goal.id}"
-                hx-swap="outerHTML"
               >
                 Remove
               </button>
