@@ -29,10 +29,11 @@ app.get("/", (req, res) => {
             hx-swap="outerHTML"
             hx-select="#goals"
             hx-on::after-request="this.reset()"
+            hx-disabled-elt="form button"
           >
             <div>
               <label htmlFor="goal">Goal</label>
-              <input type="text" id="goal" name="goal" />
+              <input type="text" id="goal" name="goal" required />
             </div>
             <button type="submit">Add goal</button>
           </form>
@@ -66,6 +67,8 @@ app.get("/", (req, res) => {
 });
 
 app.post("/goals", (req, res) => {
+  // TODO: needs validation
+
   const id = new Date().getTime().toString();
   const text = req.body.goal;
   courseGoals.unshift({ id, text });
