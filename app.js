@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
             hx-target="#goals"
             hx-swap="outerHTML"
             hx-select="#goals"
-            hx-on:submit="document.querySelector('form').reset()"
+            hx-on:htmx:after-request="document.querySelector('form').reset()"
           >
             <div>
               <label htmlFor="goal">Goal</label>
