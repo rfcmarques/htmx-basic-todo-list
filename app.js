@@ -37,16 +37,18 @@ app.get("/", (req, res) => {
           </form>
         </section>
         <section>
-          <ul id="goals" hx-swap="outerHTML">
+          <ul id="goals" 
+            hx-swap="outerHTML"
+            hx-confirm="Are you sure that you want to delete this goal?"
+          >
           ${courseGoals
             .map(
               (goal) => `
-            <li id="goal-${goal.id}">
+            <li>
               <span>${goal.text}</span>
               <button 
                 hx-delete="/goals/${goal.id}"
-                hx-confirm="Are you sure that you want to delete this goal?"
-                hx-target="#goal-${goal.id}"
+                hx-target="closest li"
               >
                 Remove
               </button>
