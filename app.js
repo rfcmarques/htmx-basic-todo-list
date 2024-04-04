@@ -38,21 +38,23 @@ app.get("/", (req, res) => {
         </section>
         <section>
           <ul id="goals">
-          ${courseGoals.map(
-            (goal, index) => `
-            <li id="goal-${index}">
-              <span>${goal}</span>
+          ${courseGoals
+            .map(
+              (goal) => `
+            <li id="goal-${goal.id}">
+              <span>${goal.text}</span>
               <button 
-                hx-delete="/goals/${index}"
+                hx-delete="/goals/${goal.id}"
                 hx-confirm="Are you sure that you want to delete this goal?"
-                hx-target="#goal-${index}"
+                hx-target="#goal-${goal.id}"
                 hx-swap="outerHTML"
               >
                 Remove
               </button>
             </li>
           `
-          )}
+            )
+            .join("")}
           </ul>
         </section>
       </main>
@@ -62,13 +64,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/goals", (req, res) => {
-  courseGoals.unshift(req.body.goal);
+  const id = new Date().getTime().toString();
+  const text = req.body.goal;
+  courseGoals.unshift({ id, text });
 
   res.redirect("/");
 });
 
 app.delete("/goals/:id", (req, res) => {
-  courseGoals.splice(req.params.id, 1);
+  const index = courseGoals.findIndex((goal) => goal.id === req.params.id);
+  courseGoals.splice(index, 1);
+
   res.send();
 });
 
