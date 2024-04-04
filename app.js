@@ -1,13 +1,13 @@
-import express from 'express';
+import express from "express";
 
 const courseGoals = [];
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.send(`
   <!DOCTYPE html>
   <html lang="en">
@@ -22,7 +22,13 @@ app.get('/', (req, res) => {
       <main>
         <h1>Manage your course goals</h1>
         <section>
-          <form id="goal-form">
+          <form 
+            id="goal-form"
+            hx-post="/"
+            hx-target="#goals"
+            hx-swap="outerHTML"
+            hx-select="#goals"
+          >
             <div>
               <label htmlFor="goal">Goal</label>
               <input type="text" id="goal" name="goal" />
@@ -48,4 +54,10 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.listen(3000);
+app.post("/", (req, res) => {
+  courseGoals.unshift(req.body.goal);
+
+  res.redirect("/");
+});
+
+app.listen(1337);
